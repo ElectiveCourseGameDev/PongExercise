@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using DikkiDinosaur;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,8 +20,10 @@ namespace PingPong
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private SpriteBatch Player1;
-        private SpriteBatch Player2;
+        private Sprite Player1;
+        private Sprite Player2;
+        private Sprite ball;
+
         public Game1()
             : base()
         {
@@ -30,7 +33,9 @@ namespace PingPong
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
+        /// This is 
+        /// 
+        /// where it can query for any required services and load any non-graphic
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
@@ -49,6 +54,10 @@ namespace PingPong
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            Player1 = new Sprite(Content.Load<Texture2D>("paddle.png"), new Vector2(10,100));
+            Player2 = new Sprite(Content.Load<Texture2D>("paddle.png"), new Vector2(750, 100));
+            ball = new Sprite(Content.Load<Texture2D>("ball.png"), new Vector2(300,200));    
 
             // TODO: use this.Content to load your game content here
         }
@@ -72,6 +81,7 @@ namespace PingPong
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -85,6 +95,12 @@ namespace PingPong
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
+            Player1.Draw(gameTime, spriteBatch);
+            Player2.Draw(gameTime, spriteBatch);
+            ball.Draw(gameTime, spriteBatch);
+
+            spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
