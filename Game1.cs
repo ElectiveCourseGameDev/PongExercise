@@ -1,7 +1,6 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
-using DikkiDinosaur;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,6 +22,10 @@ namespace PingPong
         private Sprite Player1;
         private Sprite Player2;
         private Sprite ball;
+
+        private float SpeedX = 2.4f;
+        private float SpeedY = 3.6f;
+
 
         public Game1()
             : base()
@@ -81,6 +84,16 @@ namespace PingPong
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            ball.PositionX += SpeedX;
+            ball.PositionY += SpeedY;
+
+            if (ball.BoundingBox.Intersects(Player1.BoundingBox) || ball.BoundingBox.Intersects(Player2.BoundingBox)) SpeedX *= -1;
+            if (ball.PositionY <= 0 || ball.PositionY >= 450) SpeedY *= -1;
+
+            if (Keyboard.GetState().IsKeyDown(Keys.A)) Player1.PositionY--;
+            if (Keyboard.GetState().IsKeyDown(Keys.Z)) Player1.PositionY++;
+            if (Keyboard.GetState().IsKeyDown(Keys.K)) Player2.PositionY--;
+            if (Keyboard.GetState().IsKeyDown(Keys.M)) Player2.PositionY++;
 
             // TODO: Add your update logic here
 
